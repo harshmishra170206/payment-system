@@ -1,7 +1,8 @@
 from flask import Flask, request
+import uuid, datetime
 app = Flask(__name__)
 
-FORM = """<h2>Payment System v2</h2>
+FORM = """<h2>Payment System v3</h2>
 <form method='post'>
 Name: <input name='name'><br>
 Card No: <input name='card'><br>
@@ -21,7 +22,9 @@ def pay():
             valid = False
         if not valid:
             return "<h3>Invalid payment details</h3>" + FORM
-        return "<h3>Details valid</h3>"
+        rid = uuid.uuid4().hex[:8].upper()
+        now = datetime.datetime.now().strftime('%d-%m-%Y %H:%M:%S')
+        return f"<h3>Receipt {rid}</h3>Paid Rs {amount} on {now}. Payment successful."
     return FORM
 
 if __name__ == '__main__':
